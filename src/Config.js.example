@@ -1,0 +1,7 @@
+const Config = {
+  ynabClientId: "xxx",
+  ynabClientSecret: "xxx",
+  ynabRedirectUrl: 'https://bunq2ynab.aule.net/dev',
+};
+
+export default Config;
