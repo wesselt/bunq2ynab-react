@@ -2,30 +2,43 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 
+import Config from './Config';
+
 class Login extends React.Component {
   render() {
-    const ynab_client_id =
-              '5f9fa9ef4fb1517961ea9d50498f73a4159a7d0918329ff2aae71bca0b553e06';
-    const redirect_url = 'https://bunq2ynab.aule.net/dev';
     const url = `https://app.youneedabudget.com/oauth/authorize?` +
-      `client_id=${ynab_client_id}&` +
-      `redirect_uri=${redirect_url}&` +
+      `client_id=${Config.ynabClientId}&` +
+      `redirect_uri=${Config.ynabRedirectUrl}&` +
       `response_type=code`;
     return (
       <header className="App-header">
-          <Button variant="primary" href={url}>
-              Login with YNAB</Button>
+        <Button variant="primary" href={url}>
+          Login with YNAB</Button>
+      </header>
+    )
+  }
+}
+
+class Show extends React.Component {
+  render() {
+    return (
+      <header className="App-header">
+        {this.props.token}
       </header>
     )
   }
 }
 
 function App() {
-  return (
-    <div className="App">
-        <Login />
-    </div>
-  );
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const ynabAccessToken = params.get('access_token');
+  console.log(ynabAccessToken);
+  if (ynabAccessToken) {
+    return <Show token={ynabAccessToken} />;
+  } else {
+    return <Login />;
+  }
 }
 
 export default App;
